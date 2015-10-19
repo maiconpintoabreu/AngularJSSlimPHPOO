@@ -1,53 +1,70 @@
-angular.module('locationApp', [])
-  .controller('LocationController', ['$scope', '$http', function($scope, $http) {
-    $scope.url = '/rest/location';
-    $scope.countries = [];
-    $scope.cities = [];
-    $scope.locations = [];
-    $scope.selectedCountry = null;
-    $scope.selectedCity = null;
+angular.module('locationApp',[])
+  .controller('locationController', locationController)
+  .factory('locationService', locationService);
 
-    $scope.load = function (option) {
-      $http({
-          method: 'GET',
-          url: $scope.url,
-          params: {country: $scope.selectedCountry, city: $scope.selectedCity}
-      }).success(function (data) {
-        switch (option) {
-          case 1:
-            $scope.cities = data;
-          break;
-          case 2:
-            $scope.locations = data;
-          break;
-          default:
-            $scope.countries = data;
-          break;
-        }
-      }).error(function (data) {
+locationController.$inject = ['locationService'];
+function locationController(locationService) {
+  var vm = this;
+  vm.url = '/rest/location';
+  vm.countries = [];
+  vm.cities = [];
+  vm.locations = [];
+  vm.selectedCountry = null;
+  vm.selectedCity = null;
 
-      });
-    };
-    $scope.loadCities = function () {
-            $scope.cities = [];
-            $scope.selectedCity = null;
-            $scope.load(1);
-    };
-    $scope.loadLocation = function () {
-            $scope.locations = [];
-            $scope.load(2);
-    };
+  vm.load = function (option) {
+    locationService.getLocations(vm.url, vm.selectedCountry,  vm.selectedCity).then(function(data){
+      switch(option){
+        case 1:
+          vm.cities = data;
+        break;
+        case 2:
+          vm.locations = data;
+        break;
+        default:
+          vm.countries = data;
+        break;
+      }
+    });
+  };
+  vm.loadCities = function () {
+          vm.cities = [];
+          vm.selectedCity = null;
+          vm.load(1);
+  };
+  vm.loadLocation = function () {
+          vm.locations = [];
+          vm.load(2);
+  };
 
-    $scope.reset = function () {
-        if (confirm('Are you sure you want to discard the changes?')) {
-            $scope.locations = [];
-            $scope.cities = [];
-            $scope.countries = [];
-            $scope.selectedCountry = null;
-            $scope.selectedCity = null;
-            $scope.load();
-        }
-    };
-    $scope.load();
-  }]);
-;
+  vm.reset = function () {
+      if (confirm('Are you sure you want to discard the changes?')) {
+          vm.locations = [];
+          vm.cities = [];
+          vm.countries = [];
+          vm.selectedCountry = null;
+          vm.selectedCity = null;
+          vm.load();
+      }
+  };
+  vm.load();
+}
+
+locationService.$inject = ['$http'];
+function locationService($http){
+  return {
+      getLocations: getLocations
+  };
+  function getLocations($url,$country,$city) {
+    return $http.get($url, {params:{"country": $country, "city": $city}})
+          .then(getLocationsComplete);
+
+    function getLocationsComplete(response) {
+        return response.data;
+    }
+
+    function getLocationsFailed(error) {
+        return "error";
+    }
+  }
+}

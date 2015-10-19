@@ -15,7 +15,7 @@
 
     </head>
 
-    <body ng-controller="LocationController">
+    <body ng-controller="locationController as vm">
 
         <div class="container">
             <div class="jumbotron">
@@ -26,20 +26,20 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-md-6">
-                            <select class="form-control" ng-change="loadCities()" ng-model="selectedCountry">
+                            <select class="form-control" ng-change="vm.loadCities()" ng-model="vm.selectedCountry">
                               <option value="">Countries</option>
-                              <option ng-repeat="country in countries" value="{{country.idLocation}}">{{country.descName}}</option>
+                              <option ng-repeat="country in vm.countries" value="{{country.idLocation}}">{{country.descName}}</option>
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <select class="form-control" ng-change="loadLocation()" ng-model="selectedCity">
+                            <select class="form-control" ng-change="vm.loadLocation()" ng-model="vm.selectedCity">
                               <option value="">Cities</option>
-                              <option ng-repeat="city in cities" value="{{city.idLocation}}">{{city.descName}}</option>
+                              <option ng-repeat="city in vm.cities" value="{{city.idLocation}}">{{city.descName}}</option>
                             </select>
                         </div>
                     </div>
                     <div class="well">
-                        <div ng-repeat="location in locations">
+                        <div ng-repeat="location in vm.locations">
                             <p>id: {{location.idLocation}}</p>
                             <p>Location: {{location.descName}}</p>
                             <p>Country: {{location.fkLocation}}</p>
@@ -47,7 +47,7 @@
                         </div>
                     </div>
                     <div class="pull-right">
-                        <input type="button" ng-click="reset()" value="Discard Changes" />
+                        <input type="button" ng-click="vm.reset()" value="Discard Changes" />
                     </div>
                 </div>
             </div>
