@@ -4,9 +4,9 @@ class DaoUtil{
 	private $connect;
 	private function __construct(){
 		$URL = "localhost";
-		$USER = "u112044242_admdb";
-		$PASSWORD = "OswkoQ:Ehss5ttFkiO";
-		$DATABASE = "u112044242_locdb";
+		$USER = "root";
+		$PASSWORD = "pass";
+		$DATABASE = "db_";
 		$this->connect = mysqli_connect($URL, $USER, $PASSWORD, $DATABASE) or print (mysql_error()); 
 	}
 	public static function getInstance(){
