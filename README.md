@@ -4,7 +4,7 @@ Simple AngularJS project with SlimPHP and PHP OO
 
 $HTTP, $SCOPE, SELECT, NG-REPEAT, NG-MODEL, NG-CHANGE, NG-CLICK...
 
-# Live demo: http://locations.pe.hu/
+# Live demo: http://maiconspas.esy.es/angularjs1/
 
 Database to test.:
 

@@ -5,7 +5,7 @@ angular.module('locationApp',[])
 locationController.$inject = ['locationService'];
 function locationController(locationService) {
   var vm = this;
-  vm.url = '/rest/location';
+  vm.url = 'rest/location';
   vm.countries = [];
   vm.cities = [];
   vm.locations = [];
@@ -19,6 +19,10 @@ function locationController(locationService) {
           vm.cities = data;
         break;
         case 2:
+          if(vm.selectedCity == null){
+            vm.locations = [];
+            return;
+          }
           vm.locations = data;
         break;
         default:
